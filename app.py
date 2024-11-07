@@ -27,7 +27,8 @@ def yh_client():
     start = time.time()
     image = request.files['image']
     image = Image.open(image)
-    code = pytesseract.image_to_string(image, config='-psm 7')
+    #code = pytesseract.image_to_string(image, config='-psm 7')
+    code = pytesseract.image_to_string(image, lang = 'eng')
     use_time = time.time() - start
     try:
         write_to_influxdb(use_time)
@@ -104,9 +105,10 @@ if __name__ == '__main__':
     opt.add_argument('--model', default='gevent')
     args = opt.parse_args()
     if args.model == 'gevent':
-        from gevent.wsgi import WSGIServer
+        from gevent.pywsgi import WSGIServer
 
         http_server = WSGIServer(('0.0.0.0', 5000), app)
+        
         print('listen on 0.0.0.0:5000')
         http_server.serve_forever()
     elif args.model == 'raw':

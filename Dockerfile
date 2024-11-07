@@ -1,9 +1,12 @@
-FROM ubuntu:16.04
+FROM ubuntu:22.04
 
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
 	tesseract-ocr-chi-sim \
-	python-pip
+	python3 \
+	python3-pip \
+	python-is-python3 \
+	vim
 
 COPY digits /usr/share/tesseract-ocr/tessdata/configs/digits
 
